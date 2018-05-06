@@ -1,5 +1,25 @@
 const database = require('../database.js')
 // const ObjectId = require('mongoose').Types.ObjectId
+
+// 调试脚本用来在开发阶段对数据库进行一些操作
+// 清除数据
+// database.User.remove({}, function (err, doc) {
+//   console.log('remove')
+//   console.log(doc)
+// })
+// 查找
+// database.User.find({}, function (err, doc) {
+//   console.log('find')
+//   console.log(doc)
+// })
+// // 新建
+// database.User.create({
+//   username: 'L',
+//   password:'123',
+//   question:'我是谁',
+//   answer:'L'
+// })
+
 module.exports = {
   checkUsername: ({ username }) => {
     return new Promise(function (resolve, reject) {

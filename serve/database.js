@@ -22,24 +22,50 @@ const User = mongoose.model('User', new Schema({
   question:String,
   answer:String
 }))
-// 清除数据
-// User.remove({}, function (err, doc) {
-//   console.log('remove')
-//   console.log(doc)
-// })
-// 查找
-User.find({}, function (err, doc) {
-  console.log('find')
-  console.log(doc)
-})
-// // 新建
-// User.create({
-//   username: 'L',
-//   password:'123',
-//   question:'我是谁',
-//   answer:'L'
-// })
+const Subject=mongoose.model('Subject',new Schema({
+  label:String,
+  value:String,
+  children:[
+    {
+      label:String,
+      value:String
+    }
+  ]
+}))
+const Doctor=mongoose.model('Doctor',new Schema({
+  subject:String,
+  name:String,
+  sex:Number,
+  introduce:String,
+  position:String,
+  state:Number
+}))
+const Counsel=mongoose.model('Counsel',new Schema({
+  question:String,
+  doctorId:String,
+  userId:String,
+  isReply:Boolean,
+  answer:String,
+  createTime:String
+}))
+const MedicalHistory=mongoose.model('MedicalHistory',new Schema({
+  userId:String,
+  doctorId:String,
+  symptom:String,
+  result:String,
+  recipe:[{
+    name:String,
+    number:Number,
+    unit:String,
+    frequency:Number
+  }],
+  createTime:String
+}))
 module.exports = {
-  init: init,
-  User: User
+  init,
+  User,
+  Subject,
+  Doctor,
+  Counsel,
+  MedicalHistory
 }
