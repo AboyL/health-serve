@@ -19,53 +19,109 @@ const init = () => {
 const User = mongoose.model('User', new Schema({
   username: String,
   password: String,
-  question:String,
-  answer:String
+  question: String,
+  answer: String
 }))
-const Subject=mongoose.model('Subject',new Schema({
-  label:String,
-  value:String,
-  children:[
+const Subject = mongoose.model('Subject', new Schema({
+  label: String,
+  value: String,
+  children: [
     {
-      label:String,
-      value:String
+      label: String,
+      value: String
     }
   ]
 }))
-const Doctor=mongoose.model('Doctor',new Schema({
-  subject:String,
-  name:String,
-  sex:Number,
-  introduce:String,
-  position:String,
-  state:Number
+const Doctor = mongoose.model('Doctor', new Schema({
+  subject: String,
+  name: String,
+  sex: Number,
+  introduce: String,
+  position: String,
+  state: Number
 }))
-const Counsel=mongoose.model('Counsel',new Schema({
-  question:String,
-  doctorId:String,
-  userId:String,
-  isReply:Boolean,
-  answer:String,
-  createTime:String
+const Counsel = mongoose.model('Counsel', new Schema({
+  question: String,
+  doctorId: String,
+  userId: String,
+  isReply: Boolean,
+  answer: String,
+  createTime: String
 }))
-const MedicalHistory=mongoose.model('MedicalHistory',new Schema({
-  userId:String,
-  doctorId:String,
-  symptom:String,
-  result:String,
-  recipe:[{
-    name:String,
-    number:Number,
-    unit:String,
-    frequency:Number
+const MedicalHistory = mongoose.model('MedicalHistory', new Schema({
+  userId: String,
+  doctorId: String,
+  symptom: String,
+  result: String,
+  recipe: [{
+    name: String,
+    number: Number,
+    unit: String,
+    frequency: Number
   }],
-  createTime:String
+  createTime: String
 }))
+const RegistrationSheet = mongoose.model('RegistrationSheet', new Schema({
+  doctorId: String,
+  today: {
+    time: String,
+    date: {
+      morning: [
+        {
+          number:Number,          
+          patient: String
+        }
+      ],
+      afternoon: [
+        {
+          number:Number,          
+          patient: String
+        }
+      ]
+    }
+  },
+  tomorrow: {
+    time: String,
+    date: {
+      morning: [
+        {
+          number:Number,
+          patient: String
+        }
+      ],
+      afternoon: [
+        {
+          number:Number,          
+          patient: String
+        }
+      ]
+    }
+  },
+  afterTomorrow: {
+    time: String,
+    date: {
+      morning: [
+        {
+          number:Number,          
+          patient: String
+        }
+      ],
+      afternoon: [
+        {
+          number:Number,          
+          patient: String
+        }
+      ]
+    }
+  }
+}))
+
 module.exports = {
   init,
   User,
   Subject,
   Doctor,
   Counsel,
-  MedicalHistory
+  MedicalHistory,
+  RegistrationSheet
 }

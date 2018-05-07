@@ -1,18 +1,19 @@
 const database = require('../database.js')
 const util = require('../util/util.js')
+const Counsel = database.Counsel
 // 调试脚本用来在开发阶段对数据库进行一些操作
 // 清除数据
-// database.Counsel.remove({}, function (err, doc) {
+// Counsel.remove({}, function (err, doc) {
 //   console.log('remove')
 //   console.log(doc)
 // })
 // 查找
-database.Counsel.find({}, function (err, doc) {
-  console.log('find Counsel')
-  console.log(doc)
-})
+// Counsel.find({}, function (err, doc) {
+//   console.log('find Counsel')
+//   console.log(doc)
+// })
 // // 新建
-// database.Counsel.create({
+// Counsel.create({
 //   userId:'5aee6372e512b826ec3e4295',
 //   doctorId:'5aeecc272e0876496cc01f78',
 //   question: '我也不知道怎么办',
@@ -24,10 +25,10 @@ database.Counsel.find({}, function (err, doc) {
 
 module.exports = {
   createCounsel: ({ question, userId, doctorId }) => {
-    let createTime = util.getFormatDate()
+    let createTime = util.getFormatDate(new Date())
     let isReply = false
     return new Promise(function (resolve, reject) {
-      database.Counsel.create({ question, userId, doctorId, createTime, isReply }, (err, doc) => {
+      Counsel.create({ question, userId, doctorId, createTime, isReply }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -38,7 +39,7 @@ module.exports = {
   },
   getCounsels: ({ userId }) => {
     return new Promise(function (resolve, reject) {
-      database.Counsel.find({ userId, isReply: true }, (err, doc) => {
+      Counsel.find({ userId, isReply: true }, (err, doc) => {
         if (err) {
           reject(err)
         } else {

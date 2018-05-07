@@ -2,6 +2,7 @@ const Subject = require('../database/subject.js')
 const Doctor = require('../database/doctor.js')
 const Counsel = require('../database/counsel.js')
 const MedicalHistory = require('../database/medicalHistory.js')
+const RegistrationSheet = require('../database/registrationSheet.js')
 
 module.exports = {
   getAllSubject: async (ctx, next) => {
@@ -66,7 +67,7 @@ module.exports = {
     if (list) {
       result.msg = '获取病历成功'
       result.status = 1
-      result.data={
+      result.data = {
         list
       }
     } else {
@@ -87,11 +88,68 @@ module.exports = {
     if (list) {
       result.msg = '获取咨询成功'
       result.status = 1
-      result.data={
+      result.data = {
         list
       }
     } else {
       result.msg = '获取咨询失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  getDoctorRegistrationSheet: async (ctx, next) => {
+    console.log('get doctors')
+    let result = {
+      status: 0
+    }
+    let { doctorId } = ctx.request.body
+    let sheet = await RegistrationSheet.getDoctorRegistrationSheet({ doctorId })
+    console.log('获取医生的挂号列表')
+    console.log(doctorId)
+    console.log(sheet)
+    let lastSheet = {
+      today: {
+        morning: false,
+        afternoon: false
+      },
+      tomorrow: {
+        morning: false,
+        afternoon: false
+      },
+      afterTomorrow: {
+        morning: false,
+        afternoon: false
+      }
+    }
+    const MaxPatient = 10
+    if (sheet.today.date.morning.length < MaxPatient) {
+      lastSheet.today.morning = true
+    }
+    if (sheet.tomorrow.date.afternoon.length < MaxPatient) {
+      lastSheet.today.afternoon = true
+    }
+    if (sheet.tomorrow.date.morning.length < MaxPatient) {
+      lastSheet.tomorrow.morning = true
+    }
+    if (sheet.tomorrow.date.afternoon.length < MaxPatient) {
+      lastSheet.tomorrow.afternoon = true
+    }
+
+    if (sheet.afterTomorrow.date.morning.length < MaxPatient) {
+      lastSheet.afterTomorrow.morning = true
+    }
+    if (sheet.afterTomorrow.date.afternoon.length < MaxPatient) {
+      lastSheet.afterTomorrow.afternoon = true
+    }
+
+    if (sheet) {
+      result.msg = '获取医生的挂号成功'
+      result.status = 1
+      result.data = {
+        sheet: lastSheet
+      }
+    } else {
+      result.msg = '获取医生的挂号列表失败'
     }
     ctx.body = result
     await next()

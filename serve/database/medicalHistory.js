@@ -1,18 +1,18 @@
 const database = require('../database.js')
-
+const MedicalHistory=database.MedicalHistory
 // 调试脚本用来在开发阶段对数据库进行一些操作
 // 清除数据
-// database.MedicalHistory.remove({}, function (err, doc) {
+// MedicalHistory.remove({}, function (err, doc) {
 //   console.log('remove')
 //   console.log(doc)
 // })
 // 查找
-database.MedicalHistory.find({}, function (err, doc) {
-  console.log('find MedicalHistory')
-  console.log(doc)
-})
+// MedicalHistory.find({}, function (err, doc) {
+//   console.log('find MedicalHistory')
+//   console.log(doc)
+// })
 // // 新建
-// database.MedicalHistory.create({
+// MedicalHistory.create({
 //   userId: '5aee6372e512b826ec3e4295',
 //   doctorId: '5aeecc272e0876496cc01f78',
 //   symptom: '发烧10天',
@@ -33,7 +33,7 @@ database.MedicalHistory.find({}, function (err, doc) {
 module.exports = {
   getMedicalHistorys: ({ userId }) => {
     return new Promise(function (resolve, reject) {
-      database.MedicalHistory.find({ userId }, (err, doc) => {
+      MedicalHistory.find({ userId }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
