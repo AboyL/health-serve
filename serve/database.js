@@ -64,16 +64,19 @@ const MedicalHistory = mongoose.model('MedicalHistory', new Schema({
 const RegistrationSheet = mongoose.model('RegistrationSheet', new Schema({
   doctorId: String,
   todayTime: String,
-  todayCount: Number,
+  todayMorningCount: Number,
   todayMorning: [{ number: Number, patient: String }],
   todayAfternoon: [{ number: Number, patient: String }],  
+  todayAfternoonCount:Number,
   tomorrowTime: String,
-  tomorrowCount: Number,
+  tomorrowMorningCount: Number,
   tomorrowMorning: [{ number: Number, patient: String }],
+  tomorrowAfternoonCount:Number,  
   tomorrowAfternoon: [{ number: Number, patient: String }],    
   afterTomorrowTime: String,
-  afterTomorrowCount: Number,
+  afterTomorrowMorningCount: Number,
   afterTomorrowMorning: [{ number: Number, patient: String }],
+  afterTomorrowAfternoonCount:Number,    
   afterTomorrowAfternoon: [{ number: Number, patient: String }],  
 }))
 

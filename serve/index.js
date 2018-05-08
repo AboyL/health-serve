@@ -33,6 +33,8 @@ router.post('/api/hospital/submitCounsel', Hospital.submitCounsel)
 router.post('/api/hospital/getCounsels', Hospital.getCounsels)
 router.post('/api/hospital/getMedicalHistorys', Hospital.getMedicalHistorys)
 router.post('/api/hospital/getDoctorRegistrationSheet', Hospital.getDoctorRegistrationSheet)
+router.post('/api/hospital/submitRegistration', Hospital.submitRegistration)
+
 
 
 

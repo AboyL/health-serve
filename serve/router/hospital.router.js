@@ -134,7 +134,6 @@ module.exports = {
     if (sheet.tomorrowAfternoon.length < MaxPatient) {
       lastSheet.tomorrow.afternoon = true
     }
-
     if (sheet.afterTomorrowMorning.length < MaxPatient) {
       lastSheet.afterTomorrow.morning = true
     }
@@ -150,6 +149,27 @@ module.exports = {
       }
     } else {
       result.msg = '获取医生的挂号列表失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  submitRegistration: async (ctx, next) => {
+    console.log('get doctors')
+    let result = {
+      status: 0
+    }
+    let { userId, index, doctorId } = ctx.request.body
+    let registration = await RegistrationSheet.setRegistration({ userId, index, doctorId })
+    console.log('获取号码和日期')
+    console.log(registration)
+    if (registration) {
+      result.msg = '获取号码和日期成功'
+      result.status = 1
+      result.data = {
+        registration
+      }
+    } else {
+      result.msg = '获取号码和日期失败'
     }
     ctx.body = result
     await next()

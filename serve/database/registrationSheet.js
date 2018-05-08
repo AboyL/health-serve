@@ -10,10 +10,11 @@ const util = require('../util/util.js')
 //   console.log(doc)
 // })
 // 查找
-//RegistrationSheet.find({}, function (err, doc) {
-//   console.log('find RegistrationSheet')
-//   console.log(doc)
-// })
+RegistrationSheet.find({}, function (err, doc) {
+  console.log('find RegistrationSheet')
+  console.log(doc)
+  console.log(doc.todayMorning)
+})
 // // 新建
 // RegistrationSheet.create({
 //   doctorId: '5aeecc272e0876496cc01f78',
@@ -22,7 +23,7 @@ const util = require('../util/util.js')
 
 const exp = {
   createDoctorRegistrationSheet: (sheet) => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       RegistrationSheet.create(sheet, (err, doc) => {
         if (err) {
           reject(err)
@@ -35,7 +36,7 @@ const exp = {
     })
   },
   getDoctorRegistrationSheet: ({ doctorId }) => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       RegistrationSheet.findOne({ doctorId }, (err, doc) => {
         if (err) {
           reject(err)
@@ -46,7 +47,7 @@ const exp = {
     })
   },
   getAllRegistrationSheet: () => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       RegistrationSheet.find({}, (err, doc) => {
         if (err) {
           reject(err)
@@ -57,7 +58,7 @@ const exp = {
     })
   },
   resetRegistrationSheet: (sheet) => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       RegistrationSheet.update({ doctorId: sheet.doctorId }, sheet, (err, doc) => {
         if (err) {
           reject(err)
@@ -67,16 +68,171 @@ const exp = {
       })
     })
   },
-  submitRegistration: ({ doctorId, index, userId }) => {
-    return new Promise(function (resolve, reject) {
-      RegistrationSheet.update({ doctorId }, { doctorId, index, patient: userId }, (err, doc) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(doc)
-        }
+  // 今天早上的
+  setRegistration: async function ({ doctorId, index, userId }) {
+    console.log('提交挂号')
+    let registration = await this.getDoctorRegistrationSheet({ doctorId })
+    console.log(registration)
+    if (index === 0) {
+      // 此时是今天上午
+      let count = ++registration.todayMorningCount
+      return new Promise((resolve, reject) => {
+        RegistrationSheet.update({ doctorId }, {
+          doctorId,
+          todayMorningCount: count,
+          $push: { todayMorning: { number: count, patient: userId, } }
+        }, async (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log(doc)
+            let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
+            let number = newRegistration.todayMorningCount
+            let time = newRegistration.todayTime
+            let range = '上午'
+            resolve({
+              number,
+              time,
+              range
+            })
+          }
+        })
       })
-    })
+    }
+    if (index === 1) {
+      // 此时是今天下午
+      let count = ++registration.todayAfternoonCount
+      return new Promise((resolve, reject) => {
+        RegistrationSheet.update({ doctorId }, {
+          doctorId,
+          todayAfternoonCount: count,
+          $push: { todayAfternoon: { number: count, patient: userId, } }
+        }, async (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log(doc)
+            let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
+
+            let number = newRegistration.todayMorningCount
+            let time = newRegistration.todayTime
+            let range = '下午'
+            resolve({
+              number,
+              time,
+              range
+            })
+          }
+        })
+      })
+    }
+    if (index === 2) {
+      // 此时是明天上午
+      let count = ++registration.tomorrowMorningCount
+      return new Promise((resolve, reject) => {
+        RegistrationSheet.update({ doctorId }, {
+          doctorId,
+          tomorrowMorningCount: count,
+          $push: { tomorrowMorning: { number: count, patient: userId, } }
+        }, async (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log(doc)
+            let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
+
+            let number = newRegistration.tomorrowMorningCount
+            let time = newRegistration.tomorrowTime
+            let range = '上午'
+            resolve({
+              number,
+              time,
+              range
+            })
+          }
+        })
+      })
+    }
+    if (index === 3) {
+      // 此时是明天下午
+      let count = ++registration.tomorrowAfternoonCount
+      return new Promise((resolve, reject) => {
+        RegistrationSheet.update({ doctorId }, {
+          doctorId,
+          tomorrowAfternoonCount: count,
+          $push: { tomorrowAfternoon: { number: count, patient: userId, } }
+        }, async (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log(doc)
+            let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
+
+            let number = newRegistration.tomorrowAfternoonCount
+            let time = newRegistration.tomorrowTime
+            let range = '下午'
+            resolve({
+              number,
+              time,
+              range
+            })
+          }
+        })
+      })
+    }
+    if (index === 4) {
+      // 此时是后天上午
+      let count = ++registration.afterTomorrowMorningCount
+      return new Promise((resolve, reject) => {
+        RegistrationSheet.update({ doctorId }, {
+          doctorId,
+          afterTomorrowMorningCount: count,
+          $push: { afterTomorrowMorning: { number: count, patient: userId, } }
+        }, async (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log(doc)
+            let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
+
+            let number = newRegistration.afterTomorrowMorningCount
+            let time = newRegistration.afterTomorrowTime
+            let range = '上午'
+            resolve({
+              number,
+              time,
+              range
+            })
+          }
+        })
+      })
+    }
+    if (index === 5) {
+      // 此时是后天下午
+      let count = ++registration.afterTomorrowAfternoonCount
+      return new Promise((resolve, reject) => {
+        RegistrationSheet.update({ doctorId }, {
+          doctorId,
+          afterTomorrowAfternoonCount: count,
+          $push: { afterTomorrowAfternoon: { number: count, patient: userId, } }
+        }, async (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            console.log(doc)
+            let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
+            let number = newRegistration.afterTomorrowAfternoonCount
+            let time = newRegistration.afterTomorrowTime
+            let range = '下午'
+            resolve({
+              number,
+              time,
+              range
+            })
+          }
+        })
+      })
+    }
   }
 }
 
@@ -92,16 +248,19 @@ const resetRegistrationSheet = async () => {
       let sheet = {
         doctorId: d.id,
         todayTime: util.getFormatDay(newToday),
-        todayCount: 0,
+        todayMorningCount: 0,
         todayMorning: [],
+        todayAfternoonCount: 0,
         todayAfternoon: [],
         tomorrowTime: util.getFormatDay(newToday, 1),
-        tomorrowCount: 0,
+        tomorrowMorningCount: 0,
         tomorrowMorning: [],
+        tomorrowAfternoonCount: 0,
         tomorrowAfternoon: [],
         afterTomorrowTime: util.getFormatDay(newToday, 2),
-        afterTomorrowCount: 0,
+        afterTomorrowMorningCount: 0,
         afterTomorrowMorning: [],
+        afterTomorrowAfternoonCount: 0,
         afterTomorrowAfternoon: []
       }
       await exp.createDoctorRegistrationSheet(sheet)
@@ -113,16 +272,19 @@ const resetRegistrationSheet = async () => {
       let sheet = {
         doctorId: data.doctorId,
         todayTime: util.getFormatDay(newToday),
-        todayCount: data.tomorrowCount,
+        todayMorningCount: data.tomorrowMorningCount,
         todayMorning: data.tomorrowMorning,
+        todayAfternoonCount: data.tomorrowAfternoonCount,
         todayAfternoon: data.tomorrowAfternoon,
         tomorrowTime: util.getFormatDay(newToday, 1),
-        tomorrowCount: data.afterTomorrowCount,
+        tomorrowMorningCount: data.afterTomorrowMorningCount,
         tomorrowMorning: data.afterTomorrowMorning,
+        tomorrowAfternoonCount: data.afterTomorrowAfternoonCount,
         tomorrowAfternoon: data.afterTomorrowAfternoon,
         afterTomorrowTime: util.getFormatDay(newToday, 2),
-        afterTomorrowCount: 0,
+        afterTomorrowMorningCount: 0,
         afterTomorrowMorning: [],
+        afterTomorrowAfternoonCount: 0,
         afterTomorrowAfternoon: [],
       }
       await exp.resetRegistrationSheet(sheet)
@@ -134,7 +296,7 @@ const resetRegistrationSheet = async () => {
 let today = util.getFormatDate(new Date())
 setInterval(async () => {
   let doctorId = await Doctor.getADoctor()._id
-  let sheetToday = await exp.getDoctorRegistrationSheet({ doctorId }).today.time
+  let sheetToday = await exp.getDoctorRegistrationSheet({ doctorId }).todayTime
   if (today !== sheetToday) {
     console.log(doctorId)
     today = util.getFormatDate(new Date())
