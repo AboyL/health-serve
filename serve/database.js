@@ -63,57 +63,18 @@ const MedicalHistory = mongoose.model('MedicalHistory', new Schema({
 }))
 const RegistrationSheet = mongoose.model('RegistrationSheet', new Schema({
   doctorId: String,
-  today: {
-    time: String,
-    date: {
-      morning: [
-        {
-          number:Number,          
-          patient: String
-        }
-      ],
-      afternoon: [
-        {
-          number:Number,          
-          patient: String
-        }
-      ]
-    }
-  },
-  tomorrow: {
-    time: String,
-    date: {
-      morning: [
-        {
-          number:Number,
-          patient: String
-        }
-      ],
-      afternoon: [
-        {
-          number:Number,          
-          patient: String
-        }
-      ]
-    }
-  },
-  afterTomorrow: {
-    time: String,
-    date: {
-      morning: [
-        {
-          number:Number,          
-          patient: String
-        }
-      ],
-      afternoon: [
-        {
-          number:Number,          
-          patient: String
-        }
-      ]
-    }
-  }
+  todayTime: String,
+  todayCount: Number,
+  todayMorning: [{ number: Number, patient: String }],
+  todayAfternoon: [{ number: Number, patient: String }],  
+  tomorrowTime: String,
+  tomorrowCount: Number,
+  tomorrowMorning: [{ number: Number, patient: String }],
+  tomorrowAfternoon: [{ number: Number, patient: String }],    
+  afterTomorrowTime: String,
+  afterTomorrowCount: Number,
+  afterTomorrowMorning: [{ number: Number, patient: String }],
+  afterTomorrowAfternoon: [{ number: Number, patient: String }],  
 }))
 
 module.exports = {

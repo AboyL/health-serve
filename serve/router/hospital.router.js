@@ -122,23 +122,23 @@ module.exports = {
       }
     }
     const MaxPatient = 10
-    if (sheet.today.date.morning.length < MaxPatient) {
+    if (sheet.todayMorning.length < MaxPatient) {
       lastSheet.today.morning = true
     }
-    if (sheet.tomorrow.date.afternoon.length < MaxPatient) {
+    if (sheet.todayAfternoon.length < MaxPatient) {
       lastSheet.today.afternoon = true
     }
-    if (sheet.tomorrow.date.morning.length < MaxPatient) {
+    if (sheet.tomorrowMorning.length < MaxPatient) {
       lastSheet.tomorrow.morning = true
     }
-    if (sheet.tomorrow.date.afternoon.length < MaxPatient) {
+    if (sheet.tomorrowAfternoon.length < MaxPatient) {
       lastSheet.tomorrow.afternoon = true
     }
 
-    if (sheet.afterTomorrow.date.morning.length < MaxPatient) {
+    if (sheet.afterTomorrowMorning.length < MaxPatient) {
       lastSheet.afterTomorrow.morning = true
     }
-    if (sheet.afterTomorrow.date.afternoon.length < MaxPatient) {
+    if (sheet.afterTomorrowAfternoon.length < MaxPatient) {
       lastSheet.afterTomorrow.afternoon = true
     }
 

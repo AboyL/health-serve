@@ -56,9 +56,9 @@ const exp = {
       })
     })
   },
-  resetRegistrationSheet: ({ doctorId, today, tomorrow, afterTomorrow }) => {
+  resetRegistrationSheet: (sheet) => {
     return new Promise(function (resolve, reject) {
-      RegistrationSheet.update({ doctorId }, { doctorId, today, tomorrow, afterTomorrow }, (err, doc) => {
+      RegistrationSheet.update({ doctorId: sheet.doctorId }, sheet, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -91,27 +91,18 @@ const resetRegistrationSheet = async () => {
       let newToday = new Date()
       let sheet = {
         doctorId: d.id,
-        today: {
-          time: util.getFormatDay(newToday),
-          date: {
-            morning: [],
-            afternoon: []
-          }
-        },
-        tomorrow: {
-          time: util.getFormatDay(newToday, 1),
-          date: {
-            morning: [],
-            afternoon: []
-          }
-        },
-        afterTomorrow: {
-          time: util.getFormatDay(newToday, 2),
-          date: {
-            morning: [],
-            afternoon: []
-          }
-        }
+        todayTime: util.getFormatDay(newToday),
+        todayCount: 0,
+        todayMorning: [],
+        todayAfternoon: [],
+        tomorrowTime: util.getFormatDay(newToday, 1),
+        tomorrowCount: 0,
+        tomorrowMorning: [],
+        tomorrowAfternoon: [],
+        afterTomorrowTime: util.getFormatDay(newToday, 2),
+        afterTomorrowCount: 0,
+        afterTomorrowMorning: [],
+        afterTomorrowAfternoon: []
       }
       await exp.createDoctorRegistrationSheet(sheet)
     })
@@ -121,21 +112,18 @@ const resetRegistrationSheet = async () => {
       let newToday = new Date()
       let sheet = {
         doctorId: data.doctorId,
-        today: {
-          time: util.getFormatDay(newToday),
-          date: data.tomorrow.date
-        },
-        tomorrow: {
-          time: util.getFormatDay(newToday, 1),
-          date: data.afterTomorrow.date
-        },
-        afterTomorrow: {
-          time: util.getFormatDay(newToday, 2),
-          date: {
-            morning: [],
-            afternoon: []
-          }
-        }
+        todayTime: util.getFormatDay(newToday),
+        todayCount: data.tomorrowCount,
+        todayMorning: data.tomorrowMorning,
+        todayAfternoon: data.tomorrowAfternoon,
+        tomorrowTime: util.getFormatDay(newToday, 1),
+        tomorrowCount: data.afterTomorrowCount,
+        tomorrowMorning: data.afterTomorrowMorning,
+        tomorrowAfternoon: data.afterTomorrowAfternoon,
+        afterTomorrowTime: util.getFormatDay(newToday, 2),
+        afterTomorrowCount: 0,
+        afterTomorrowMorning: [],
+        afterTomorrowAfternoon: [],
       }
       await exp.resetRegistrationSheet(sheet)
     })
