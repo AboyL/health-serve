@@ -38,7 +38,6 @@ module.exports = {
     await next()
   },
   submitCounsel: async (ctx, next) => {
-    console.log('get doctors')
     let result = {
       status: 0
     }
@@ -56,22 +55,23 @@ module.exports = {
     await next()
   },
   getCounsels: async (ctx, next) => {
-    console.log('get doctors')
     let result = {
       status: 0
     }
+    console.log('获取咨询------')
     let { userId } = ctx.request.body
+    console.log(userId)
     let list = await Counsel.getCounsels({ userId })
-    console.log('获取病历')
+    console.log('获取咨询')
     console.log(list)
     if (list) {
-      result.msg = '获取病历成功'
+      result.msg = '获取咨询成功'
       result.status = 1
       result.data = {
         list
       }
     } else {
-      result.msg = '获取病历失败'
+      result.msg = '获取咨询失败'
     }
     ctx.body = result
     await next()
@@ -83,16 +83,16 @@ module.exports = {
     }
     let { userId } = ctx.request.body
     let list = await MedicalHistory.getMedicalHistorys({ userId })
-    console.log('获取咨询')
+    console.log('获取病历')
     console.log(list)
     if (list) {
-      result.msg = '获取咨询成功'
+      result.msg = '获取病历成功'
       result.status = 1
       result.data = {
         list
       }
     } else {
-      result.msg = '获取咨询失败'
+      result.msg = '获取病历失败'
     }
     ctx.body = result
     await next()
