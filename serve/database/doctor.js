@@ -7,10 +7,10 @@ const Doctor = database.Doctor
 //   console.log(doc)
 // })
 // 查找
-Doctor.find({}, function (err, doc) {
-  console.log('find Doctor')
-  console.log(doc)
-})
+// Doctor.find({}, function (err, doc) {
+//   console.log('find Doctor')
+//   console.log(doc)
+// })
 // // 新建
 // Doctor.create({
 //   subject:'children_bone',

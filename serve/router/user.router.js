@@ -8,10 +8,11 @@ module.exports = {
     let hasUser = await User.checkUsername(parame)
     if (hasUser) {
       let userPass = await User.checkUserPass(parame)
+      console.log(userPass)
       if (userPass) {
         result.status = 1
         result.msg = '登录成功'
-        result.data = { token: userPass.id }
+        result.data = { token: userPass.id,username:userPass.username }
       } else {
         result.msg = '密码不正确'
       }
