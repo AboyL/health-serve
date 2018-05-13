@@ -8,10 +8,12 @@ const database = require('../database.js')
 //   console.log(doc)
 // })
 // 查找
-// database.User.find({}, function (err, doc) {
-//   console.log('find')
-//   console.log(doc)
-// })
+database.User.find({}, function (err, doc) {
+  console.log('find')
+  console.log(doc)
+})
+
+
 // // 新建
 // database.User.create({
 //   username: 'L',
@@ -91,6 +93,31 @@ module.exports = {
     console.log(oldPassword)
     return new Promise(function (resolve, reject) {
       database.User.updateOne({ _id, password: oldPassword }, { password: newPassword }, (err, doc) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(doc)
+        }
+      })
+    })
+  },
+  setRegistrationSheet: ({ userId, registerTime, registerRange }) => {
+    console.log(userId)
+    console.log(registerTime)
+    console.log(registerRange)
+    return new Promise(function (resolve, reject) {
+      database.User.updateOne({ _id:userId }, { registerTime, registerRange }, (err, doc) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(doc)
+        }
+      })
+    })
+  },
+  clearRegistrationSheet: ({ _id }) => {
+    return new Promise(function (resolve, reject) {
+      database.User.updateOne({ _id }, { registerTime: '', registerRang: '' }, (err, doc) => {
         if (err) {
           reject(err)
         } else {

@@ -1,5 +1,6 @@
 const Subject = require('../database/subject.js')
 const Doctor = require('../database/doctor.js')
+const User = require('../database/user.js')
 const Counsel = require('../database/counsel.js')
 const MedicalHistory = require('../database/medicalHistory.js')
 const RegistrationSheet = require('../database/registrationSheet.js')
@@ -160,6 +161,8 @@ module.exports = {
     }
     let { userId, index, doctorId } = ctx.request.body
     let registration = await RegistrationSheet.setRegistration({ userId, index, doctorId })
+    let UserRegistrationSheet = await User.setRegistrationSheet({ userId, registerTime: registration.time, registerRange: registration.range })
+    console.log(UserRegistrationSheet)
     console.log('获取号码和日期')
     console.log(registration)
     if (registration) {
@@ -173,5 +176,28 @@ module.exports = {
     }
     ctx.body = result
     await next()
-  }
+  },
+  cancelRegistration: async (ctx, next) => {
+    console.log('get doctors')
+    let result = {
+      status: 0
+    }
+    let { userId, index, doctorId } = ctx.request.body
+    let registration = await RegistrationSheet.setRegistration({ userId, index, doctorId })
+    let UserRegistrationSheet = await User.setRegistrationSheet({ _id: userId, registerTime: registration.time, registerRange: registration.range })
+    console.log(UserRegistrationSheet)
+    console.log('获取号码和日期')
+    console.log(registration)
+    if (registration) {
+      result.msg = '获取号码和日期成功'
+      result.status = 1
+      result.data = {
+        registration
+      }
+    } else {
+      result.msg = '获取号码和日期失败'
+    }
+    ctx.body = result
+    await next()
+  },
 }

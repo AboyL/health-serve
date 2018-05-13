@@ -20,7 +20,9 @@ const User = mongoose.model('User', new Schema({
   username: String,
   password: String,
   question: String,
-  answer: String
+  answer: String,
+  registerTime:String,
+  registerRange:String
 }))
 const Subject = mongoose.model('Subject', new Schema({
   label: String,
