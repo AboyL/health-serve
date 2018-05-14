@@ -9,11 +9,11 @@ const util = require('../util/util.js')
 //   console.log(doc)
 // })
 // 查找
-RegistrationSheet.find({}, function (err, doc) {
-  console.log('查看挂号表格')
-  console.log(doc)
-  console.log(doc[1].todayMorning)
-})
+// RegistrationSheet.find({}, function (err, doc) {
+//   console.log('查看挂号表格')
+//   console.log(doc)
+//   console.log(doc[1].todayMorning)
+// })
 
 // // 新建
 // RegistrationSheet.create({

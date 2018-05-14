@@ -5,6 +5,9 @@ const Counsel = require('../database/counsel.js')
 const MedicalHistory = require('../database/medicalHistory.js')
 const RegistrationSheet = require('../database/registrationSheet.js')
 
+const constant = require('../constant.js')
+const util=require('../util/util.js')
+
 module.exports = {
   getAllSubject: async (ctx, next) => {
     let result = {
@@ -21,19 +24,51 @@ module.exports = {
     await next()
   },
   getDoctors: async (ctx, next) => {
-    console.log('get doctors')
+    console.log('-----------------------------get doctors-----------------------------')
     let result = {
       status: 0
     }
     let { subject } = ctx.request.body
     console.log(subject)
-    let list = await Doctor.getDoctors({ subject })
+    let doctorList = await Doctor.getDoctors({ subject })
+    let list=util.deepCopy(doctorList)
+    console.log('doctor list')
     console.log(list)
+    console.log('------------test----------')
+    list[0].state=1
+    console.log(list[0])
     if (list.length > 0) {
+      // 为医生加上状态
+      for (let index = 0; index < list.length; index++) {
+        console.log('加上状态途中')
+        console.log(index)
+        let sheet = await RegistrationSheet.getDoctorRegistrationSheet({ doctorId: list[index]._id })
+        if (sheet) {
+          console.log('sheet')
+          if (sheet.todayMorning.length >= constant.maxRegistrationSheetNumber &&
+            sheet.todayAfternoon.length >= constant.maxRegistrationSheetNumber &&
+            sheet.tomorrowMorning.length >= constant.maxRegistrationSheetNumber &&
+            sheet.tomorrowAfternoon.length >= constant.maxRegistrationSheetNumber &&
+            sheet.afterTomorrowMorning.length >= constant.maxRegistrationSheetNumber &&
+            sheet.afterTomorrowAfternoon.length >= constant.maxRegistrationSheetNumber
+          ) {
+            console.log('这个医生没有号码')
+            list[index].state = false
+          } else {
+            console.log('这个医生有号码')
+            list[index].state = true
+          }
+          list[index].test = 'test'
+          console.log(list[index])
+        }
+        console.log('加上了状态------------------------------')
+      }
+      console.log('加上了状态后的list')
+      console.log(list)
       result.data = list
       result.status = 1
     } else {
-      result.msg = '查找失败'
+      result.msg = '查找医生列表失败'
     }
     ctx.body = result
     await next()
@@ -140,7 +175,7 @@ module.exports = {
         afternoon: false
       }
     }
-    const MaxPatient = 10
+    const MaxPatient = constant.maxRegistrationSheetNumber
     if (sheet.todayMorning.length < MaxPatient) {
       lastSheet.today.morning = true
     }
@@ -177,7 +212,7 @@ module.exports = {
     let result = {
       status: 0
     }
-    let { userId, index, doctorId,subject } = ctx.request.body
+    let { userId, index, doctorId, subject } = ctx.request.body
     let registration = await RegistrationSheet.setRegistration({ userId, index, doctorId })
     console.log('给用户中添加挂号表')
     console.log(registration)
@@ -186,8 +221,8 @@ module.exports = {
       registerTime: registration.time,
       registerRange: registration.range,
       registerNumber: registration.number,
-      registerDoctorId:doctorId,
-      registerSubject:subject
+      registerDoctorId: doctorId,
+      registerSubject: subject
     })
     console.log(UserRegistrationSheet)
     console.log('获取号码和日期')

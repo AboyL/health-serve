@@ -43,7 +43,6 @@ const Doctor = mongoose.model('Doctor', new Schema({
   sex: Number,
   introduce: String,
   position: String,
-  state: Number
 }))
 const Counsel = mongoose.model('Counsel', new Schema({
   question: String,

@@ -17,8 +17,8 @@ module.exports = {
   },
   getFormatDay: (date, difference) => {
     if (date instanceof Date) {
-      if(difference){
-        date.setTime(date.getTime() + difference*24 * 60 * 60 * 1000)      
+      if (difference) {
+        date.setTime(date.getTime() + difference * 24 * 60 * 60 * 1000)
       }
       let year = date.getFullYear()
       let month = date.getMonth() + 1
@@ -29,4 +29,19 @@ module.exports = {
       throw Error('非日期类型')
     }
   },
+  deepCopy: (obj) => {
+    var str, newobj = obj.constructor === Array ? [] : {}
+    if (typeof obj !== 'object') {
+      return
+    } else if (global.JSON) {
+      str = JSON.stringify(obj), //系列化对象
+      newobj = JSON.parse(str) //还原
+    } else {
+      for (var i in obj) {
+        newobj[i] = typeof obj[i] === 'object' ?
+          this.deepCopy(obj[i]) : obj[i]
+      }
+    }
+    return newobj
+  }
 }

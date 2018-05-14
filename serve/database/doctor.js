@@ -17,7 +17,6 @@ const Doctor = database.Doctor
 //   name: '刘医生',
 //   sex: 1,
 //   position: '主治医生',
-//   state: 1,
 //   introduce: '擅长看病',
 // })
 // Doctor.create({
@@ -25,7 +24,6 @@ const Doctor = database.Doctor
 //   name: '王医生',
 //   sex: 0,
 //   position: '主治医生',
-//   state: 0,
 //   introduce: '擅长看病',
 // })
 // Doctor.create({
@@ -33,7 +31,6 @@ const Doctor = database.Doctor
 //   name: '李医生',
 //   sex: 0,
 //   position: '主治医生',
-//   state: 0,
 //   introduce: '擅长看病',
 // })
 
