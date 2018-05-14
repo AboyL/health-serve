@@ -22,7 +22,10 @@ const User = mongoose.model('User', new Schema({
   question: String,
   answer: String,
   registerTime:String,
-  registerRange:String
+  registerRange:String,
+  registerNumber:Number,
+  registerSubject:Array,
+  registerDoctorId:String
 }))
 const Subject = mongoose.model('Subject', new Schema({
   label: String,

@@ -8,10 +8,10 @@ const database = require('../database.js')
 //   console.log(doc)
 // })
 // 查找
-database.User.find({}, function (err, doc) {
-  console.log('find')
-  console.log(doc)
-})
+// database.User.find({}, function (err, doc) {
+//   console.log('find user')
+//   console.log(doc)
+// })
 
 
 // // 新建
@@ -23,6 +23,17 @@ database.User.find({}, function (err, doc) {
 // })
 
 module.exports = {
+  getUserInfo: ({ username }) => {
+    return new Promise(function (resolve, reject) {
+      database.User.findOne({ username }, (err, doc) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(doc)
+        }
+      })
+    })
+  },
   checkUsername: ({ username }) => {
     return new Promise(function (resolve, reject) {
       database.User.findOne({ username }, (err, doc) => {
@@ -101,15 +112,23 @@ module.exports = {
       })
     })
   },
-  setRegistrationSheet: ({ userId, registerTime, registerRange }) => {
+  setRegistrationSheet: ({ userId, registerTime, registerRange, registerNumber, registerSubject, registerDoctorId }) => {
+    console.log('setRegistrationSheet')
+    console.log(registerNumber)
+    console.log(registerDoctorId)
     console.log(userId)
-    console.log(registerTime)
-    console.log(registerRange)
     return new Promise(function (resolve, reject) {
-      database.User.updateOne({ _id:userId }, { registerTime, registerRange }, (err, doc) => {
+      database.User.updateOne({ _id: userId }, {
+        registerTime,
+        registerRange,
+        registerNumber,
+        registerSubject,
+        registerDoctorId
+      }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
+          console.log(doc)
           resolve(doc)
         }
       })
@@ -117,7 +136,7 @@ module.exports = {
   },
   clearRegistrationSheet: ({ _id }) => {
     return new Promise(function (resolve, reject) {
-      database.User.updateOne({ _id }, { registerTime: '', registerRang: '' }, (err, doc) => {
+      database.User.updateOne({ _id }, { registerTime: '', registerRang: '', registerNumber: '', registerSubject: '', registerDoctorId: '' }, (err, doc) => {
         if (err) {
           reject(err)
         } else {

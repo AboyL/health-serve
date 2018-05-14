@@ -1,6 +1,20 @@
 const User = require('../database/user.js')
 
 module.exports = {
+  getUserInfo:async (ctx, next) => {
+    let result = { status: 0 }
+    let { username } = ctx.request.body
+    let parame = { username }
+    let userInfo = await User.checkUsername(parame)
+    if (userInfo) {
+      result.status = 1
+      result.data = { userInfo}
+    } else {
+      result.msg = '获取用户信息失败'
+    }
+    ctx.body = result
+    await next()
+  },
   login: async (ctx, next) => {
     let result = { status: 0 }
     let { username, password } = ctx.request.body

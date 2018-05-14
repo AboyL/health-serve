@@ -60,15 +60,27 @@ module.exports = {
       })
     })
   },
-  getADoctor: () => {
-    return new Promise(function (resolve, reject) {
-      Doctor.findOne({}, (err, doc) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(doc)
-        }
+  getADoctor: ({doctorId}) => {
+    if(doctorId){
+      return new Promise(function (resolve, reject) {
+        Doctor.findOne({_id:doctorId}, (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(doc)
+          }
+        })
       })
-    })
+    }else{
+      return new Promise(function (resolve, reject) {
+        Doctor.findOne({}, (err, doc) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(doc)
+          }
+        })
+      })
+    }
   }
 }

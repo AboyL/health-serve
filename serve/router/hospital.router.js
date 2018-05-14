@@ -38,6 +38,24 @@ module.exports = {
     ctx.body = result
     await next()
   },
+  getADoctor: async (ctx, next) => {
+    console.log('get doctors')
+    let result = {
+      status: 0
+    }
+    let { doctorId } = ctx.request.body
+    console.log(doctorId)
+    let doctor = await Doctor.getADoctor({ doctorId })
+    console.log(doctor)
+    if (doctor) {
+      result.data = doctor
+      result.status = 1
+    } else {
+      result.msg = '查找医生失败'
+    }
+    ctx.body = result
+    await next()
+  },
   submitCounsel: async (ctx, next) => {
     let result = {
       status: 0
@@ -159,9 +177,18 @@ module.exports = {
     let result = {
       status: 0
     }
-    let { userId, index, doctorId } = ctx.request.body
+    let { userId, index, doctorId,subject } = ctx.request.body
     let registration = await RegistrationSheet.setRegistration({ userId, index, doctorId })
-    let UserRegistrationSheet = await User.setRegistrationSheet({ userId, registerTime: registration.time, registerRange: registration.range })
+    console.log('给用户中添加挂号表')
+    console.log(registration)
+    let UserRegistrationSheet = await User.setRegistrationSheet({
+      userId,
+      registerTime: registration.time,
+      registerRange: registration.range,
+      registerNumber: registration.number,
+      registerDoctorId:doctorId,
+      registerSubject:subject
+    })
     console.log(UserRegistrationSheet)
     console.log('获取号码和日期')
     console.log(registration)
@@ -177,25 +204,23 @@ module.exports = {
     ctx.body = result
     await next()
   },
-  cancelRegistration: async (ctx, next) => {
-    console.log('get doctors')
+  clearRegistrationSheet: async (ctx, next) => {
+    console.log('取消挂号')
     let result = {
       status: 0
     }
-    let { userId, index, doctorId } = ctx.request.body
-    let registration = await RegistrationSheet.setRegistration({ userId, index, doctorId })
-    let UserRegistrationSheet = await User.setRegistrationSheet({ _id: userId, registerTime: registration.time, registerRange: registration.range })
-    console.log(UserRegistrationSheet)
-    console.log('获取号码和日期')
-    console.log(registration)
-    if (registration) {
-      result.msg = '获取号码和日期成功'
+    let { userId, doctorId, time, range } = ctx.request.body
+    console.log(ctx.request.body)
+    let registration = await RegistrationSheet.clearRegistrationSheet({ userId, time, range, doctorId })
+
+    if (registration.ok) {
+      await User.clearRegistrationSheet({
+        _id: userId
+      })
+      result.msg = '取消挂号成功'
       result.status = 1
-      result.data = {
-        registration
-      }
     } else {
-      result.msg = '获取号码和日期失败'
+      result.msg = '取消挂号失败'
     }
     ctx.body = result
     await next()
