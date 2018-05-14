@@ -1,14 +1,49 @@
 const User = require('../database/user.js')
+const util = require('../util/util.js')
 
 module.exports = {
-  getUserInfo:async (ctx, next) => {
+  getUserInfo: async (ctx, next) => {
     let result = { status: 0 }
     let { username } = ctx.request.body
     let parame = { username }
     let userInfo = await User.checkUsername(parame)
     if (userInfo) {
       result.status = 1
-      result.data = { userInfo}
+      let userInfoTrue = util.deepCopy(userInfo)
+      if (userInfo.registerTime) {
+        console.log('------------------获取用户信息------------')
+        let nowTime = util.getFormatDay(new Date())
+        // 在日期过了以及时间过了的情况下可以清空挂号信息了
+        let timeOut = false
+        console.log('判断时间')
+        console.log(nowTime)
+        console.log( userInfo.registerTime)
+        console.log(nowTime > userInfo.registerTime)
+        if (nowTime > userInfo.registerTime) {
+          timeOut = true
+        } else {
+          let nowRange = (new Date()).getHours
+          if (userInfo.registerRange === '上午' && nowRange > 12) {
+            timeOut = true
+          }else if(nowRange > 17){
+            timeOut = true            
+          }
+        }
+        if (timeOut) {
+          // 清除挂号信息
+          await User.clearRegistrationSheet({
+            _id: userInfo._id
+          })
+          // 重新获取信息
+          userInfoTrue = util.deepCopy(await User.checkUsername(parame))
+          console.log('重新获取信息')
+          console.log(userInfoTrue)
+          userInfoTrue.isPast = true
+        } else {
+          userInfoTrue.isPast = false
+        }
+      }
+      result.data = { userInfo: userInfoTrue }
     } else {
       result.msg = '获取用户信息失败'
     }
@@ -26,7 +61,7 @@ module.exports = {
       if (userPass) {
         result.status = 1
         result.msg = '登录成功'
-        result.data = { token: userPass.id,username:userPass.username }
+        result.data = { token: userPass.id, username: userPass.username }
       } else {
         result.msg = '密码不正确'
       }

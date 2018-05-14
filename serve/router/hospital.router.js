@@ -29,22 +29,14 @@ module.exports = {
       status: 0
     }
     let { subject } = ctx.request.body
-    console.log(subject)
     let doctorList = await Doctor.getDoctors({ subject })
     let list=util.deepCopy(doctorList)
-    console.log('doctor list')
-    console.log(list)
-    console.log('------------test----------')
     list[0].state=1
-    console.log(list[0])
     if (list.length > 0) {
       // 为医生加上状态
       for (let index = 0; index < list.length; index++) {
-        console.log('加上状态途中')
-        console.log(index)
         let sheet = await RegistrationSheet.getDoctorRegistrationSheet({ doctorId: list[index]._id })
         if (sheet) {
-          console.log('sheet')
           if (sheet.todayMorning.length >= constant.maxRegistrationSheetNumber &&
             sheet.todayAfternoon.length >= constant.maxRegistrationSheetNumber &&
             sheet.tomorrowMorning.length >= constant.maxRegistrationSheetNumber &&
@@ -58,13 +50,8 @@ module.exports = {
             console.log('这个医生有号码')
             list[index].state = true
           }
-          list[index].test = 'test'
-          console.log(list[index])
         }
-        console.log('加上了状态------------------------------')
       }
-      console.log('加上了状态后的list')
-      console.log(list)
       result.data = list
       result.status = 1
     } else {
