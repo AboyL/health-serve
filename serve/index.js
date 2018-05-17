@@ -5,7 +5,7 @@ const cors = require('koa2-cors')
 const app = new Koa()
 const User = require('./router/user.router.js')
 const Hospital = require('./router/hospital.router.js')
-
+const Knowledge =require('./router/knowledge.router.js')
 
 const db = require('./database.js')
 // 连接数据库
@@ -39,6 +39,13 @@ router.post('/api/hospital/getMedicalHistorys', Hospital.getMedicalHistorys)
 router.post('/api/hospital/getDoctorRegistrationSheet', Hospital.getDoctorRegistrationSheet)
 router.post('/api/hospital/submitRegistration', Hospital.submitRegistration)
 router.post('/api/hospital/clearRegistrationSheet', Hospital.clearRegistrationSheet)
+// 知识库配置
+router.post('/api/knowledge/getSymptom', Knowledge.getSymptom)
+router.post('/api/knowledge/getCommonSymptom', Knowledge.getCommonSymptom)
+router.post('/api/knowledge/querySymptom', Knowledge.querySymptom)
+
+
+
 
 
 

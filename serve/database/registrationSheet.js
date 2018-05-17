@@ -391,7 +391,7 @@ setInterval(async () => {
     console.log('今天还没有过完')
   }
 }, 24 * 60 * 60 * 1000)
-// resetRegistrationSheet()
+// resetRegistrationSheet() 
 
 // exp.setRegistration({doctorId:'5af164422fe1f73ef4e70c77',index:0,userId:'5af5411df2baa220ccf3188a'})
 // exp.setRegistration({doctorId:'5af164422fe1f73ef4e70c77',index:0,userId:'5aee6372e512b826ec3e4295'})

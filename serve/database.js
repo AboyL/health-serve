@@ -21,11 +21,11 @@ const User = mongoose.model('User', new Schema({
   password: String,
   question: String,
   answer: String,
-  registerTime:String,
-  registerRange:String,
-  registerNumber:Number,
-  registerSubject:Array,
-  registerDoctorId:String
+  registerTime: String,
+  registerRange: String,
+  registerNumber: Number,
+  registerSubject: Array,
+  registerDoctorId: String
 }))
 const Subject = mongoose.model('Subject', new Schema({
   label: String,
@@ -70,20 +70,30 @@ const RegistrationSheet = mongoose.model('RegistrationSheet', new Schema({
   todayTime: String,
   todayMorningCount: Number,
   todayMorning: [{ number: Number, patient: String }],
-  todayAfternoon: [{ number: Number, patient: String }],  
-  todayAfternoonCount:Number,
+  todayAfternoon: [{ number: Number, patient: String }],
+  todayAfternoonCount: Number,
   tomorrowTime: String,
   tomorrowMorningCount: Number,
   tomorrowMorning: [{ number: Number, patient: String }],
-  tomorrowAfternoonCount:Number,  
-  tomorrowAfternoon: [{ number: Number, patient: String }],    
+  tomorrowAfternoonCount: Number,
+  tomorrowAfternoon: [{ number: Number, patient: String }],
   afterTomorrowTime: String,
   afterTomorrowMorningCount: Number,
   afterTomorrowMorning: [{ number: Number, patient: String }],
-  afterTomorrowAfternoonCount:Number,    
-  afterTomorrowAfternoon: [{ number: Number, patient: String }],  
+  afterTomorrowAfternoonCount: Number,
+  afterTomorrowAfternoon: [{ number: Number, patient: String }],
 }))
-
+// 常见症状
+const Symptom = mongoose.model('Symptom', new Schema({
+  key: String,
+  name: String,
+  isCommon: Boolean,//是否是常见病
+  abstract: String,// 简介
+  reason: String,
+  behave: String,// 表现
+  therapy: String,// 治疗方法
+  prevent: String,// 预防
+}))
 module.exports = {
   init,
   User,
@@ -91,5 +101,6 @@ module.exports = {
   Doctor,
   Counsel,
   MedicalHistory,
-  RegistrationSheet
+  RegistrationSheet,
+  Symptom
 }
