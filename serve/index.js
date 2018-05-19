@@ -43,6 +43,10 @@ router.post('/api/hospital/clearRegistrationSheet', Hospital.clearRegistrationSh
 router.post('/api/knowledge/getSymptom', Knowledge.getSymptom)
 router.post('/api/knowledge/getCommonSymptom', Knowledge.getCommonSymptom)
 router.post('/api/knowledge/querySymptom', Knowledge.querySymptom)
+router.post('/api/knowledge/getAllKnowledge', Knowledge.getAllKnowledge)
+router.post('/api/knowledge/getKnowledge', Knowledge.getKnowledge)
+
+
 
 
 

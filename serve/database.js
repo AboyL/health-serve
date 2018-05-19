@@ -94,6 +94,17 @@ const Symptom = mongoose.model('Symptom', new Schema({
   therapy: String,// 治疗方法
   prevent: String,// 预防
 }))
+const Knowledge=mongoose.model('Knowledge',new Schema({
+  key:String,
+  name:String,
+  knowledges:[{
+    createTime:String,
+    author:String,
+    title:String,
+    // abstract:String,//摘要
+    content:String
+  }]
+}))
 module.exports = {
   init,
   User,
@@ -102,5 +113,6 @@ module.exports = {
   Counsel,
   MedicalHistory,
   RegistrationSheet,
-  Symptom
+  Symptom,
+  Knowledge
 }
