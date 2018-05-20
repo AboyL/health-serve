@@ -105,6 +105,15 @@ const Knowledge=mongoose.model('Knowledge',new Schema({
     content:String
   }]
 }))
+const CheckExplainSheet=mongoose.model('CheckExplainSheet',new Schema(
+  {
+    name: String,
+    range: String,
+    unit: String,
+    low: String,
+    high: String
+  }
+))
 module.exports = {
   init,
   User,
@@ -114,5 +123,6 @@ module.exports = {
   MedicalHistory,
   RegistrationSheet,
   Symptom,
-  Knowledge
+  Knowledge,
+  CheckExplainSheet
 }

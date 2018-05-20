@@ -4,6 +4,8 @@ const User = require('../database/user.js')
 const Counsel = require('../database/counsel.js')
 const MedicalHistory = require('../database/medicalHistory.js')
 const RegistrationSheet = require('../database/registrationSheet.js')
+const CheckExplainSheet = require('../database/checkExplainSheet.js')
+
 
 const constant = require('../constant.js')
 const util=require('../util/util.js')
@@ -241,6 +243,24 @@ module.exports = {
       })
       result.msg = '取消挂号成功'
       result.status = 1
+    } else {
+      result.msg = '取消挂号失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  getCheckExplainSheet: async (ctx, next) => {
+    console.log('获取检查解释表')
+    let result = {
+      status: 0
+    }
+    console.log(ctx.request.body)
+    let checkExplainSheet = await CheckExplainSheet.getCheckExplainSheet()
+    if (checkExplainSheet.length) {
+      result.status = 1
+      result.data = {
+        checkExplainSheet
+      }
     } else {
       result.msg = '取消挂号失败'
     }
