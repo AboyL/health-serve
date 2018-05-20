@@ -17,12 +17,14 @@ const CheckExplainSheet = database.CheckExplainSheet
 // CheckExplainSheet.create({
 //   name: '白细胞',
 //   range: '4.0-10.0',
+//   key:'white_blood_cells',
 //   unit: '10^9/L',
 //   low: '减少常见于流感、麻疹等病毒性传染病及严重败血症、药物或放射线所致及某些血液病',
 //   high: '白细胞增多常见于炎性感染、出血、中毒、白血病等'
 // })
 // CheckExplainSheet.create({
 //   name: '红细胞数',
+//   key:'red_blood_cells',  
 //   range: '1.0-5.5',
 //   unit: '10^12/L',
 //   low: '脱水、先天性心脏病、肺心病等',
@@ -30,6 +32,7 @@ const CheckExplainSheet = database.CheckExplainSheet
 // })
 // CheckExplainSheet.create({
 //   name: '血红蛋白浓度',
+//   key:'hemoglobin',
 //   range: '120-160',
 //   unit: 'g/L',
 //   low: '贫血',

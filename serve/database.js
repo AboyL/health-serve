@@ -50,11 +50,12 @@ const Counsel = mongoose.model('Counsel', new Schema({
   userId: String,
   isReply: Boolean,
   answer: String,
-  createTime: String
+  createTime: String,
 }))
 const MedicalHistory = mongoose.model('MedicalHistory', new Schema({
   userId: String,
   doctorId: String,
+  checkSheetId:String,//检查单id  
   symptom: String,
   result: String,
   recipe: [{
@@ -108,10 +109,24 @@ const Knowledge=mongoose.model('Knowledge',new Schema({
 const CheckExplainSheet=mongoose.model('CheckExplainSheet',new Schema(
   {
     name: String,
+    key:String,
     range: String,
     unit: String,
     low: String,
     high: String
+  }
+))
+const CheckSheet=mongoose.model('CheckSheet',new Schema(
+  {
+    createTime: String,
+    result:[
+      {
+        name:String,//项目名称
+        key:String,
+        unit: String,//单位
+        count:String,//数值
+      }
+    ]
   }
 ))
 module.exports = {
@@ -124,5 +139,6 @@ module.exports = {
   RegistrationSheet,
   Symptom,
   Knowledge,
-  CheckExplainSheet
+  CheckExplainSheet,
+  CheckSheet
 }

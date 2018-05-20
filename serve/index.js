@@ -40,6 +40,8 @@ router.post('/api/hospital/getDoctorRegistrationSheet', Hospital.getDoctorRegist
 router.post('/api/hospital/submitRegistration', Hospital.submitRegistration)
 router.post('/api/hospital/clearRegistrationSheet', Hospital.clearRegistrationSheet)
 router.post('/api/hospital/getCheckExplainSheet', Hospital.getCheckExplainSheet)
+router.post('/api/hospital/getCheckSheet', Hospital.getCheckSheet)
+
 
 // 知识库配置
 router.post('/api/knowledge/getSymptom', Knowledge.getSymptom)

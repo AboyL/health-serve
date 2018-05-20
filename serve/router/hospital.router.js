@@ -5,6 +5,8 @@ const Counsel = require('../database/counsel.js')
 const MedicalHistory = require('../database/medicalHistory.js')
 const RegistrationSheet = require('../database/registrationSheet.js')
 const CheckExplainSheet = require('../database/checkExplainSheet.js')
+const CheckSheet = require('../database/checkSheet.js')
+
 
 
 const constant = require('../constant.js')
@@ -126,8 +128,14 @@ module.exports = {
     }
     let { userId } = ctx.request.body
     let list = await MedicalHistory.getMedicalHistorys({ userId })
+    // let trueList=util.deepCopy(list)
+    // trueList.forEach(async (data,index)=>{
+    //   let checkSheet=await CheckSheet.getCheckSheet({_id:data.checkSheetId})
+    //   console.log('checkSheet')
+    //   console.log(checkSheet)
+    //   trueList[index].checkSheet=checkSheet
+    // })
     console.log('获取病历')
-    console.log(list)
     if (list) {
       result.msg = '获取病历成功'
       result.status = 1
@@ -267,4 +275,24 @@ module.exports = {
     ctx.body = result
     await next()
   },
+  getCheckSheet: async (ctx, next) => {
+    console.log('获取检查表')
+    let result = {
+      status: 0
+    }
+    console.log(ctx.request.body)
+    let {checkSheetId}=ctx.request.body
+    let checkSheet = await CheckSheet.getCheckSheet({_id:checkSheetId})
+    if (checkSheet) {
+      result.status = 1
+      result.data = {
+        checkSheet
+      }
+    } else {
+      result.msg = '获取检查表失败'
+    }
+    ctx.body = result
+    await next()
+  },
+
 }

@@ -1,5 +1,7 @@
 const database = require('../database.js')
 const MedicalHistory=database.MedicalHistory
+// const util = require('../util/util.js')
+
 // 调试脚本用来在开发阶段对数据库进行一些操作
 // 清除数据
 // MedicalHistory.remove({}, function (err, doc) {
@@ -10,14 +12,15 @@ const MedicalHistory=database.MedicalHistory
 // MedicalHistory.find({}, function (err, doc) {
 //   console.log('find MedicalHistory')
 //   console.log(doc)
+//   console.log( util.getFormatDate(new Date()))
 // })
 // // 新建
 // MedicalHistory.create({
-//   userId: '5aee6372e512b826ec3e4295',
-//   doctorId: '5aeecc272e0876496cc01f78',
+//   userId: '5af90f1ace75de2ee01bd736',
+//   doctorId: '5af931e8c7a87a2220bf5a46',
+//   checkSheetId:'5b01a969009fd131cc126988',
 //   symptom: '发烧10天',
 //   result: '流行性感冒',
-//   introduce: '擅长看病',
 //   recipe: [
 //     {
 //       name: '阿莫西林',
@@ -26,7 +29,7 @@ const MedicalHistory=database.MedicalHistory
 //       frequency: 3
 //     }
 //   ],
-//   createTime: '2017-12-12 12:15:12'
+//   createTime: util.getFormatDate(new Date()),
 // })
 
 
