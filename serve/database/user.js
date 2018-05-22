@@ -1,4 +1,5 @@
 const database = require('../database.js')
+const User=database.User
 // const ObjectId = require('mongoose').Types.ObjectId
 
 // 调试脚本用来在开发阶段对数据库进行一些操作
@@ -10,7 +11,7 @@ const database = require('../database.js')
 // 查找
 // database.User.find({}, function (err, doc) {
 //   console.log('find user')
-//   console.log(doc)
+//   console.log(doc[0].physicalExaminationList)
 // })
 
 
@@ -25,7 +26,7 @@ const database = require('../database.js')
 module.exports = {
   getUserInfo: ({ username }) => {
     return new Promise(function (resolve, reject) {
-      database.User.findOne({ username }, (err, doc) => {
+      User.findOne({ username }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -36,7 +37,7 @@ module.exports = {
   },
   checkUsername: ({ username }) => {
     return new Promise(function (resolve, reject) {
-      database.User.findOne({ username }, (err, doc) => {
+      User.findOne({ username }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -47,7 +48,7 @@ module.exports = {
   },
   checkUserPass: ({ username, password }) => {
     return new Promise(function (resolve, reject) {
-      database.User.findOne({ username, password }, (err, doc) => {
+      User.findOne({ username, password }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -58,7 +59,7 @@ module.exports = {
   },
   register: ({ username, password, question, answer }) => {
     return new Promise(function (resolve, reject) {
-      database.User.create({ username, password, question, answer }, (err, doc) => {
+      User.create({ username, password, question, answer }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -69,7 +70,7 @@ module.exports = {
   },
   getQuestion: ({ username }) => {
     return new Promise(function (resolve, reject) {
-      database.User.findOne({ username }, (err, doc) => {
+      User.findOne({ username }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -80,7 +81,7 @@ module.exports = {
   },
   checkAnswer: ({ username, answer }) => {
     return new Promise(function (resolve, reject) {
-      database.User.findOne({ username, answer }, (err, doc) => {
+      User.findOne({ username, answer }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -91,7 +92,7 @@ module.exports = {
   },
   resetPassword: ({ username, password }) => {
     return new Promise(function (resolve, reject) {
-      database.User.updateOne({ username }, { password }, (err, doc) => {
+      User.updateOne({ username }, { password }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -103,7 +104,7 @@ module.exports = {
   changePass: ({ oldPassword, newPassword, _id }) => {
     console.log(oldPassword)
     return new Promise(function (resolve, reject) {
-      database.User.updateOne({ _id, password: oldPassword }, { password: newPassword }, (err, doc) => {
+      User.updateOne({ _id, password: oldPassword }, { password: newPassword }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
@@ -118,7 +119,7 @@ module.exports = {
     console.log(registerDoctorId)
     console.log(userId)
     return new Promise(function (resolve, reject) {
-      database.User.updateOne({ _id: userId }, {
+      User.updateOne({ _id: userId }, {
         registerTime,
         registerRange,
         registerNumber,
@@ -136,13 +137,64 @@ module.exports = {
   },
   clearRegistrationSheet: ({ _id }) => {
     return new Promise(function (resolve, reject) {
-      database.User.updateOne({ _id }, { registerTime: '', registerRang: '', registerNumber: '', registerSubject: '', registerDoctorId: '' }, (err, doc) => {
+      User.updateOne({ _id }, { registerTime: '', registerRang: '', registerNumber: '', registerSubject: [], registerDoctorId: '' }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
           resolve(doc)
         }
       })
+    })
+  },
+  setPhysicalExaminationList: ({ username, key, date }) => {
+    return new Promise(function (resolve, reject) {
+      User.updateOne({ username }, {
+        $push: { physicalExaminationList: { key, date, isPass: false } }
+      }, (err, doc) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(doc)
+        }
+      })
+    })
+  },
+  cancelPhysicalExamination: ({ username, physicalExaminationId }) => {
+    return new Promise(function (resolve, reject) {
+      User.findOne({ username },
+        (err, doc) => {
+          if (err) {
+            reject({
+              ok:false
+            })
+          } else {
+            doc.physicalExaminationList.forEach((element,index)=>{
+              console.log('id')
+              console.log(physicalExaminationId)
+              console.log(element.id)
+              if(element.id===physicalExaminationId){
+                console.log('找到了')
+                console.log(index)
+                doc.physicalExaminationList[index].isPass=-1
+              }
+            })
+            doc.physicalExaminationList.splice(0, 0)
+            doc.password='222'
+            doc.markModified('physicalExaminationList')
+            console.log('doc')
+            console.log(doc)
+            doc.save((err)=>{
+              if(err){
+                console.log('err')
+                console.log(err)
+              }
+            })
+
+            resolve({
+              ok:true
+            })
+          }
+        })
     })
   }
 

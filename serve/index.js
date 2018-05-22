@@ -39,9 +39,14 @@ router.post('/api/hospital/getMedicalHistorys', Hospital.getMedicalHistorys)
 router.post('/api/hospital/getDoctorRegistrationSheet', Hospital.getDoctorRegistrationSheet)
 router.post('/api/hospital/submitRegistration', Hospital.submitRegistration)
 router.post('/api/hospital/clearRegistrationSheet', Hospital.clearRegistrationSheet)
+
 router.post('/api/hospital/getCheckExplainSheet', Hospital.getCheckExplainSheet)
 router.post('/api/hospital/getCheckSheet', Hospital.getCheckSheet)
 
+router.post('/api/hospital/getPhysicalExaminationList', Hospital.getPhysicalExaminationList)
+router.post('/api/hospital/getPhysicalExamination', Hospital.getPhysicalExamination)
+router.post('/api/hospital/submitPhysicalExamination', Hospital.submitPhysicalExamination)
+router.post('/api/hospital/cancelPhysicalExamination', Hospital.cancelPhysicalExamination)
 
 // 知识库配置
 router.post('/api/knowledge/getSymptom', Knowledge.getSymptom)

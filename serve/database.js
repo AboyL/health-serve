@@ -25,7 +25,14 @@ const User = mongoose.model('User', new Schema({
   registerRange: String,
   registerNumber: Number,
   registerSubject: Array,
-  registerDoctorId: String
+  registerDoctorId: String,
+  physicalExaminationList:[
+    {
+      key:String,
+      date:String,
+      isPass:Number
+    }
+  ]
 }))
 const Subject = mongoose.model('Subject', new Schema({
   label: String,
@@ -129,6 +136,15 @@ const CheckSheet=mongoose.model('CheckSheet',new Schema(
     ]
   }
 ))
+const PhysicalExamination=mongoose.model('PhysicalExamination',new Schema(
+  {
+    key:String,
+    name:String,
+    price:Number,
+    img:String,
+    detail:String
+  }
+))
 module.exports = {
   init,
   User,
@@ -140,5 +156,6 @@ module.exports = {
   Symptom,
   Knowledge,
   CheckExplainSheet,
-  CheckSheet
+  CheckSheet,
+  PhysicalExamination
 }

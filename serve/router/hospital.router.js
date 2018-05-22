@@ -6,6 +6,8 @@ const MedicalHistory = require('../database/medicalHistory.js')
 const RegistrationSheet = require('../database/registrationSheet.js')
 const CheckExplainSheet = require('../database/checkExplainSheet.js')
 const CheckSheet = require('../database/checkSheet.js')
+const PhysicalExamination = require('../database/physicalExamination.js')
+
 
 
 
@@ -290,6 +292,76 @@ module.exports = {
       }
     } else {
       result.msg = '获取检查表失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  getPhysicalExaminationList: async (ctx, next) => {
+    console.log('体检列表')
+    let result = {
+      status: 0
+    }
+    let physicalExamination = await PhysicalExamination.getPhysicalExaminationList()
+    if (physicalExamination) {
+      result.status = 1
+      result.data = {
+        physicalExamination
+      }
+    } else {
+      result.msg = '获取检查表失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  getPhysicalExamination: async (ctx, next) => {
+    console.log('体检列表')
+    let result = {
+      status: 0
+    }
+    let {key}=ctx.request.body
+    let physicalExamination = await PhysicalExamination.getPhysicalExamination( {key})
+    if (physicalExamination) {
+      result.status = 1
+      result.data = {
+        physicalExamination
+      }
+    } else {
+      result.msg = '获取检查表失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  submitPhysicalExamination: async (ctx, next) => {
+    console.log('提交体检')
+    let result = {
+      status: 0
+    }
+    let {key,date,username}=ctx.request.body
+    let re = await User.setPhysicalExaminationList( {key,date,username})
+    let us=await User.getUserInfo({username})
+    console.log(us)
+    if (re.ok) {
+      result.status = 1
+      result.msg='预定成功'
+    } else {
+      result.msg = '提交失败'
+    }
+    ctx.body = result
+    await next()
+  },
+  cancelPhysicalExamination: async (ctx, next) => {
+    console.log('完成体检')
+    let result = {
+      status: 0
+    }
+    let {physicalExaminationId,username}=ctx.request.body
+    let isOk = await User.cancelPhysicalExamination( {physicalExaminationId,username})
+    console.log(isOk.ok)
+    if (isOk.ok) {
+      result.status = 1
+      result.msg='成功'
+    } else {
+      result.msg = '失败'
     }
     ctx.body = result
     await next()
