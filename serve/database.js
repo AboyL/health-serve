@@ -140,7 +140,6 @@ const PhysicalExamination=mongoose.model('PhysicalExamination',new Schema(
   {
     key:String,
     name:String,
-    price:Number,
     img:String,
     detail:String
   }
