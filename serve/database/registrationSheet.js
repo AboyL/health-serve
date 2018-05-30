@@ -9,11 +9,11 @@ const util = require('../util/util.js')
 //   console.log(doc)
 // })
 // 查找
-// RegistrationSheet.find({}, function (err, doc) {
-//   console.log('查看挂号表格')
-//   console.log(doc)
-//   console.log(doc[1].todayMorning)
-// })
+RegistrationSheet.find({}, function (err, doc) {
+  console.log('查看挂号表格')
+  console.log(doc)
+  // console.log(doc[1].todayMorning)
+})
 
 // // 新建
 // RegistrationSheet.create({
@@ -98,6 +98,8 @@ const exp = {
     }
     if (index === 1) {
       // 此时是今天下午
+      console.log('今天下午')
+      console.log(registration.todayAfternoonCount)
       let count = ++registration.todayAfternoonCount
       return new Promise((resolve, reject) => {
         RegistrationSheet.update({ doctorId }, {
@@ -110,7 +112,7 @@ const exp = {
           } else {
             console.log(doc)
             let newRegistration = await this.getDoctorRegistrationSheet({ doctorId })
-            let number = newRegistration.todayMorningCount
+            let number = newRegistration.todayAfternoonCount
             let time = newRegistration.todayTime
             let range = '下午'
             resolve({
@@ -390,8 +392,9 @@ setInterval(async () => {
   } else {
     console.log('今天还没有过完')
   }
-},  60 * 60 * 1000)
+},  24*60 * 60 * 1000)
 // resetRegistrationSheet() 
+
 
 // exp.setRegistration({doctorId:'5af164422fe1f73ef4e70c77',index:0,userId:'5af5411df2baa220ccf3188a'})
 // exp.setRegistration({doctorId:'5af164422fe1f73ef4e70c77',index:0,userId:'5aee6372e512b826ec3e4295'})

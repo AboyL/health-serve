@@ -137,7 +137,7 @@ module.exports = {
   },
   clearRegistrationSheet: ({ _id }) => {
     return new Promise(function (resolve, reject) {
-      User.updateOne({ _id }, { registerTime: '', registerRang: '', registerNumber: '', registerSubject: [], registerDoctorId: '' }, (err, doc) => {
+      User.updateOne({ _id }, { registerTime: '', registerRange: '', registerNumber: '', registerSubject: [], registerDoctorId: '' }, (err, doc) => {
         if (err) {
           reject(err)
         } else {
